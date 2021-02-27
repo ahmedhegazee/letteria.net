@@ -50,7 +50,7 @@
       </ol>
       <div class="carousel-inner">
         <div
-          class="carousel-item active"
+          class="carousel-item active slider-image"
           style="background-image: url('/images/slider1.png')"
         >
           <div class="row content">
@@ -61,7 +61,7 @@
           </div>
         </div>
         <div
-          class="carousel-item"
+          class="carousel-item slider-image"
           style="background-image: url('/images/slider2.png')"
         >
           <div class="row content">
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div
-          class="carousel-item"
+          class="carousel-item slider-image"
           style="background-image: url('/images/slider3.png')"
         >
           <div class="row content">
