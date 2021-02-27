@@ -187,6 +187,9 @@ export default {
 };
 </script>
 <style scoped>
+.container {
+  padding-top: 80px;
+}
 .product_image {
   margin-bottom: 15px;
 }

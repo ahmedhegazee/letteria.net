@@ -1,6 +1,6 @@
 <template>
   <div class="home_slider">
-    <VueSlickCarousel
+    <!-- <VueSlickCarousel
       :arrows="false"
       :dots="true"
       :autoplay="true"
@@ -33,7 +33,75 @@
         class="slider-image"
         :style="{ backgroundImage: 'url(\'/images/slider3.png\')' }"
       ></div>
-    </VueSlickCarousel>
+    </VueSlickCarousel> -->
+    <div
+      id="carouselExampleCaptions"
+      class="carousel slide"
+      data-ride="carousel"
+    >
+      <ol class="carousel-indicators">
+        <li
+          data-target="#carouselExampleCaptions"
+          data-slide-to="0"
+          class="active"
+        ></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div
+          class="carousel-item active"
+          style="background-image: url('/images/slider1.png')"
+        >
+          <div class="row content">
+            <div>
+              <p class="sub_title">UK & Republic of Ireland</p>
+              <h1 class="title">Free Shipping</h1>
+            </div>
+          </div>
+        </div>
+        <div
+          class="carousel-item"
+          style="background-image: url('/images/slider2.png')"
+        >
+          <div class="row content">
+            <div>
+              <p class="sub_title">Hand-stamped within</p>
+              <h1 class="title">24 Hours</h1>
+            </div>
+          </div>
+        </div>
+        <div
+          class="carousel-item"
+          style="background-image: url('/images/slider3.png')"
+        >
+          <div class="row content">
+            <div>
+              <p class="sub_title">Hand-stamped within</p>
+              <h1 class="title">24 Hours</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a
+        class="carousel-control-prev"
+        href="#carouselExampleCaptions"
+        role="button"
+        data-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a
+        class="carousel-control-next"
+        href="#carouselExampleCaptions"
+        role="button"
+        data-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
   </div>
 </template>
 

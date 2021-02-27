@@ -231,6 +231,9 @@ export default {
 };
 </script>
 <style >
+.container-fluid {
+  max-width: 1050px;
+}
 .bg-dark,
 .btn-dark {
   background-color: #000000 !important;

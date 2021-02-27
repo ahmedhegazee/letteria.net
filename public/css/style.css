@@ -1,15 +1,19 @@
 /*
     DEMO STYLE
 */
-
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+@font-face {
+  font-family: myFirstFont;
+  src: url(sansation_bold.woff);
+  font-weight: bold;
+}
+@import "https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700";
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: #fff;
 }
 
 p {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
