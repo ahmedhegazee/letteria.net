@@ -125,11 +125,15 @@
               </div>
             </form> -->
             <div class="step-footer row">
-              <a href="/payment">< Return to payment</a>
-              <!-- <button type="button" class="btn btn-dark">
+              <div class="col-md-6 col-sm-12 return_link_container">
+                <a href="/payment" class="return-link">< Return to payment</a>
+              </div>
+              <div class="col-md-6 col-sm-12 text-right">
+                <!-- <button type="button" class="btn btn-dark">
                 Review order
               </button> -->
-              <a href="#" class="btn btn-dark"> Complete order </a>
+                <a href="#" class="btn btn-dark"> Complete order </a>
+              </div>
             </div>
           </div>
         </div>

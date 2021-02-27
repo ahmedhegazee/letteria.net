@@ -157,13 +157,17 @@
               </label>
             </div>
             <div class="step-footer row">
-              <a href="/cart">< Return to cart</a>
-              <!-- <button type="button" class="btn btn-dark">
+              <div class="col-md-6 col-sm-12 return_link_container">
+                <a href="/cart" class="return-link">< Return to cart</a>
+              </div>
+              <div class="col-md-6 col-sm-12 text-right">
+                <!-- <button type="button" class="btn btn-dark">
                 Countinue to shipping
               </button> -->
-              <a href="/shipping" class="btn btn-dark">
-                Countinue to shipping
-              </a>
+                <a href="/shipping" class="btn btn-dark">
+                  Countinue to shipping
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -294,7 +298,7 @@ body {
 }
 .step-footer {
   margin-top: 1.5em;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 0 15px;
 }
 h3 {
@@ -367,6 +371,7 @@ h3 {
 .sidbar-header span:last-of-type {
   font-weight: 600;
 }
+
 @media (max-width: 768px) {
   .sidbar-mobile {
     display: block;
@@ -398,5 +403,6 @@ h3 {
     padding-right: 15px;
     padding-left: 15px;
   }
+
 }
 </style>

@@ -101,11 +101,19 @@
               </div>
             </form>
             <div class="step-footer row">
-              <a href="/checkout">< Return to information</a>
-              <!-- <button type="button" class="btn btn-dark">
+              <div class="col-md-6 col-sm-12 return_link_container">
+                <a href="/checkout" class="return-link"
+                  >< Return to information</a
+                >
+              </div>
+              <div class="col-md-6 col-sm-12 text-right">
+                <!-- <button type="button" class="btn btn-dark">
                 Countinue to payment
               </button> -->
-              <a href="/payment" class="btn btn-dark"> Countinue to payment </a>
+                <a href="/payment" class="btn btn-dark">
+                  Countinue to payment
+                </a>
+              </div>
             </div>
           </div>
         </div>

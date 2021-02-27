@@ -15,22 +15,32 @@
       </div>
       <ul class="list-unstyled components">
         <li class="active">
-          <a
-            href="#homeSubmenu"
-            data-toggle="collapse"
-            aria-expanded="false"
-            class="dropdown-toggle"
-            >LETHERBAR</a
-          >
+          <a href="/products"
+            >LETHERBAR
+            <a
+              href="#homeSubmenu"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle d-inline"
+              style="border: none"
+              ><i class="fas fa-plus"></i></a
+          ></a>
+
           <ul class="collapse list-unstyled" id="homeSubmenu">
             <li>
-              <a href="/products">Products</a>
+              <a href="/products/1">2cm Bar (max. 5 characters)</a>
             </li>
             <li>
-              <a href="#">Product 2</a>
+              <a href="#">3cm Bar (max. 9 characters)</a>
             </li>
             <li>
-              <a href="#">Product 3</a>
+              <a href="#">4cm Bar (max. 13 characters)</a>
+            </li>
+            <li>
+              <a href="#">Double Bar</a>
+            </li>
+            <li>
+              <a href="#">Triple Bar</a>
             </li>
           </ul>
         </li>
@@ -164,12 +174,22 @@
               </div>
               <div class="col-md-4 col-sm-12">
                 <p>&copy;2021, Letteria</p>
-                <ul class="list-unstyled">
-                  <li><img src="" alt="" /></li>
-                  <li><img src="" alt="" /></li>
-                  <li><img src="" alt="" /></li>
-                  <li><img src="" alt="" /></li>
-                  <li><img src="" alt="" /></li>
+                <ul class="list-unstyled payments">
+                  <li>
+                    <a href=""><i class="fab fa-cc-visa"></i></a>
+                  </li>
+                  <li>
+                    <a href=""><i class="fab fa-cc-mastercard"></i></a>
+                  </li>
+                  <li>
+                    <a href=""><i class="fab fa-cc-amex"></i></a>
+                  </li>
+                  <li>
+                    <a href=""><i class="fab fa-apple-pay"></i></a>
+                  </li>
+                  <li>
+                    <a href=""><i class="fab fa-paypal"></i></a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -236,9 +256,20 @@ body {
 .sidbar-header .btn {
   background-color: transparent !important;
 }
-
-@media (max-width: 768) {
+.payments li {
+  display: inline-block;
+  font-size: 35px;
+}
+@media (max-width: 768px) {
   .footer {
+    text-align: center;
+    padding-top: 0px;
+  }
+  .footer .col-sm-12 {
+    margin-bottom: 20px;
+  }
+  .payments li {
+    display: block;
     text-align: center;
   }
 }

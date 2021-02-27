@@ -108,11 +108,15 @@
               </div>
             </form> -->
             <div class="step-footer row">
-              <a href="/shipping">< Return to shipping</a>
-              <!-- <button type="button" class="btn btn-dark">
+              <div class="col-md-6 col-sm-12 return_link_container">
+                <a href="/shipping" class="return-link">< Return to shipping</a>
+              </div>
+              <div class="col-md-6 col-sm-12 text-right">
+                <!-- <button type="button" class="btn btn-dark">
                 Review order
               </button> -->
-              <a href="/order" class="btn btn-dark"> Review order </a>
+                <a href="/order" class="btn btn-dark"> Review order </a>
+              </div>
             </div>
           </div>
         </div>

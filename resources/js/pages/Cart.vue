@@ -19,12 +19,12 @@
         </div>
         <div class="col-12 cart_products">
           <div class="row">
-            <div class="col-7">
+            <div class="col-md-7 col-sm-12">
               <div class="row">
-                <div class="col-4 row pl-5">
+                <div class="col-md-4 col-sm-4 row pl-md-5">
                   <img src="/images/product1.jpg" class="product_image" />
                 </div>
-                <div class="col-8 pl-5">
+                <div class="col-md-8 col-sm-8 pl-md-5">
                   <h5 class="product_title">
                     2 cm Bar Necklace (max. 5 characters)
                   </h5>
@@ -40,9 +40,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-5">
+            <div class="col-md-5 col-sm-12">
               <div class="row">
-                <div class="col-6 text-center">
+                <div class="col-6 text-center product_quantity_container">
                   <input
                     type="number"
                     min="1"
@@ -51,14 +51,14 @@
                     style="width: 50%"
                   />
                 </div>
-                <div class="col-6 text-center">£24.00</div>
+                <div class="col-6 text-center total_container">£24.00</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12 cart_footer">
+        <div class="col-md-12 cart_footer">
           <div class="row">
-            <div class="col-7">
+            <div class="col-md-7 col-sm-12">
               <div class="form-group">
                 <label for="instructions"
                   >Special instructions for seller</label
@@ -70,7 +70,7 @@
                 ></textarea>
               </div>
             </div>
-            <div class="col-5">
+            <div class="col-md-5 col-sm-12">
               <div class="row">
                 <div class="col-6 mb-4 text-center">Subtotal</div>
                 <div class="col-6 mb-4 text-center">£24.00</div>
@@ -119,5 +119,31 @@ export default {};
 }
 .cart_products {
   margin-bottom: 30px;
+}
+.header {
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .cart_header {
+    display: none;
+  }
+  .col-sm-4 {
+    width: 25% !important;
+    padding-left: 0;
+    /* padding-right: 0; */
+  }
+  .col-sm-8 {
+    width: 75% !important;
+  }
+  .product_quantity_container {
+    text-align: left !important;
+    padding-left: 0;
+    margin-top: 10px;
+  }
+  .total_container {
+    text-align: right !important;
+    padding-right: 0;
+    margin-top: 10px;
+  }
 }
 </style>
