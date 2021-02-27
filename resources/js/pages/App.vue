@@ -16,7 +16,7 @@
       <ul class="list-unstyled components">
         <li class="active">
           <a href="/products"
-            >LETHERBAR
+            >LETTER BAR
             <a
               href="#homeSubmenu"
               data-toggle="collapse"
@@ -46,7 +46,7 @@
         </li>
       </ul>
 
-      <ul class="list-unstyled CTAs">
+      <ul class="list-unstyled CTAs" style="font-weight: 300">
         <li>
           <a href="#" c>Our Story</a>
         </li>
