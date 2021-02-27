@@ -125,10 +125,10 @@ export default {
 .slider-image {
   min-height: 88vh;
   width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
   margin: 0 !important;
 }
 .content {
