@@ -2,34 +2,34 @@
 
 @section('content')
 <div class="row justify-content-end mb-2 mr-2">
-    <a href="{{ route('admin.slider.create') }}" class="btn btn-primary"><i class="fas fa-plus    "></i> Add</a>
+    <a href="{{ route('admin.category.create') }}" class="btn btn-primary"><i class="fas fa-plus    "></i> Add</a>
 </div>
 <table class="table table-hover text-nowrap">
     <thead>
         <tr>
-            <th>Image</th>
+
             @foreach ($langs as $lang)
-            <th>Title {{ $lang }}</th>
-            <th>SubTitle {{ $lang }}</th>
+            <th>Name {{ $lang }}</th>
+            <th>Content {{ $lang }}</th>
             @endforeach
 
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($images as $image)
+        @foreach ($categories as $categry)
         <tr>
-            <td><img src="{{ asset($image->image_src) }}" alt="" width="100px" height="100px"></td>
+
             @foreach ($langs as $lang)
-            <td>{{ $image->title[$lang] }}</td>
-            <td>{{ $image->sub_title[$lang] }}</td>
+            <td>{{ $categry->name[$lang] }}</td>
+            <td>{{ $categry->content[$lang] }}</td>
             @endforeach
             <td>
-                <a href="{{ route('admin.slider.edit',$image->id) }}" class="btn btn-success"><i class="fas fa-edit"
+                <a href="{{ route('admin.category.edit',$categry->id) }}" class="btn btn-success"><i class="fas fa-edit"
                         aria-hidden="true"></i>Edit</a>
-                <a href="#" class="btn btn-danger" onclick="event.preventDefault();deleteRecord({{ $image->id }})"><i
+                <a href="#" class="btn btn-danger" onclick="event.preventDefault();deleteRecord({{ $categry->id }})"><i
                         class="fas fa-trash"></i> Delete</a>
-                <form id="delete-form-{{ $image->id }}" action="{{ route('admin.slider.destroy',$image->id) }}"
+                <form id="delete-form-{{ $categry->id }}" action="{{ route('admin.category.destroy',$categry->id) }}"
                     method="POST" class="d-none">
                     @csrf
                     @method("delete")
@@ -40,7 +40,7 @@
     </tbody>
 </table>
 <div class="row justify-content-center">
-    {{ $images->links() }}
+    {{ $categories->links() }}
 </div>
 @endsection
 @push('scripts')

@@ -16,8 +16,8 @@ class CreateHomePageImagesTable extends Migration
         Schema::create('home_page_images', function (Blueprint $table) {
             $table->id();
             $table->string("image_src");
-            $table->string("title");
-            $table->string("sub_title");
+            $table->text("title");
+            $table->text("sub_title");
             $table->timestamps();
         });
     }

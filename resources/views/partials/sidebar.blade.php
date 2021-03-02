@@ -55,10 +55,19 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.slider.index') }}"
-                        class="nav-link {{ Request::url()==route('admin.slider.index')?'active':'' }}">
+                        class="nav-link {{ request()->is("dashboard/slider/*")||request()->is("dashboard/slider")?'active':'' }}">
                         <i class="nav-icon fas fa-images"></i>
                         <p>
                             Slider
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.category.index') }}"
+                        class="nav-link {{ request()->is("dashboard/product/category/*")||request()->is("dashboard/product/category")?'active':'' }}">
+                        <i class="nav-icon fas fa-star"></i>
+                        <p>
+                            Categories
                         </p>
                     </a>
                 </li>

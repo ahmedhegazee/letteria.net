@@ -39,9 +39,12 @@ class HomeImagePageController extends Controller
      */
     public function store(Request $request)
     {
+
         $rules = [
-            'title' => "required|string|min:3|max:191",
-            'sub_title' => "required|string|min:3|max:191",
+            'title' => "required|array",
+            'title.*' => "required|string|min:3|max:191",
+            'sub_title' => "required|array",
+            'sub_title.*' => "required|string|min:3|max:191",
             "image" => "required|image|max:20480",
         ];
         $this->validate($request, $rules);
@@ -73,8 +76,10 @@ class HomeImagePageController extends Controller
     public function update(Request $request, HomePageImage $slider)
     {
         $rules = [
-            'title' => "required|string|min:3|max:191",
-            'sub_title' => "required|string|min:3|max:191",
+            'title' => "required|array",
+            'title.*' => "required|string|min:3|max:191",
+            'sub_title' => "required|array",
+            'sub_title.*' => "required|string|min:3|max:191",
             "image" => "sometimes|image|max:20480",
         ];
         $this->validate($request, $rules);

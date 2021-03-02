@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\HomeImagePageController;
+use App\Http\Controllers\Dashboard\ProductCategroyController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ Auth::routes(['register' => false, 'reset' => false]);
 Route::prefix('dashboard')->name('admin.')->group(function () {
     Route::get('/', [HomeController::class, "index"])->name('home');
     Route::resource("slider", HomeImagePageController::class)->except(['show']);
+    Route::prefix("product")->group(function () {
+        Route::resource("category", ProductCategroyController::class)->except(['show']);
+    });
 });
 Route::get('/404', fn () => view('errors.404'));
 Route::get('/401', fn () => view('errors.401'));
