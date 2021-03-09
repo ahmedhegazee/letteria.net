@@ -14,4 +14,8 @@ class ProductCategory extends Model
         'name' => Json::class,
         'content' => Json::class
     ];
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

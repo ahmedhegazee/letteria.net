@@ -3,6 +3,8 @@
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\HomeImagePageController;
 use App\Http\Controllers\Dashboard\ProductCategroyController;
+use App\Http\Controllers\ProductAttributeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -20,11 +22,13 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false, 'reset' => false]);
 
-Route::prefix('dashboard')->name('admin.')->group(function () {
+Route::prefix('dashboard')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/', [HomeController::class, "index"])->name('home');
     Route::resource("slider", HomeImagePageController::class)->except(['show']);
     Route::prefix("product")->group(function () {
         Route::resource("category", ProductCategroyController::class)->except(['show']);
+        Route::resource("attribute", ProductAttributeController::class)->except(['show']);
+        Route::resource("product", ProductController::class);
     });
 });
 Route::get('/404', fn () => view('errors.404'));

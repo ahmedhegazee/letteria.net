@@ -71,6 +71,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.attribute.index') }}"
+                        class="nav-link {{ request()->is("dashboard/product/attribute/*")||request()->is("dashboard/product/attribute")?'active':'' }}">
+                        <i class="nav-icon fas fa-certificate"></i>
+                        <p>
+                            Attributes
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
