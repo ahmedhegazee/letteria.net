@@ -9,7 +9,7 @@ import axios from "axios";
 import { routes } from "./routes/index";
 import { messages } from "./messages";
 import VueI18n from "vue-i18n";
-
+Vue.component("test", "./components/test.vue");
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(VueI18n);

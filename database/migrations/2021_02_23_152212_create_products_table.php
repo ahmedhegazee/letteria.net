@@ -17,6 +17,8 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->text("title");
             $table->double("price", 8, 2, true);
+            $table->string("image_src");
+            $table->string("slug");
             $table->foreignId("product_category_id")->references("id")->on("product_categories")
                 ->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

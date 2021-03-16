@@ -1,8 +1,10 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<h3>{{ $product->title['en'] }}</h3>
 <div class="row justify-content-end mb-2 mr-2">
-    <a href="{{ route('admin.attribute.create') }}" class="btn btn-primary"><i class="fas fa-plus    "></i> Add</a>
+    <a href="{{ route('admin.attribute.create',$product->id) }}" class="btn btn-primary"><i class="fas fa-plus    "></i>
+        Add</a>
 </div>
 <table class="table table-hover text-nowrap">
     <thead>
@@ -30,12 +32,12 @@
                 @elseif($attribute->type=='dropdown')
                 <div class="row">
                     @foreach ($langs as $lang)
-                    <div class="col-6">
+                    <div class="col-12">
                         <h5>{{ $lang }}</h5>
                         <select>
                             <option disabled selected>Select</option>
                             @foreach ($attribute->values as $item)
-                            <option>{{ $item->value[$lang] }}</option>
+                            <option>{{ $item->value[$lang] .'('.$item->price.')'}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -58,13 +60,14 @@
             <td>{{ $attribute->limit_chars==0?'No Limit':$attribute->limit_chars.' Characters' }}</td>
             <td>{{ $attribute->required==0?'Not Required':'Required' }}</td>
             <td>
-                <a href="{{ route('admin.attribute.edit',$attribute->id) }}" class="btn btn-success"><i
-                        class="fas fa-edit" aria-hidden="true"></i>Edit</a>
-                <a href="#" class="btn btn-danger"
+                <a href="{{ route('admin.attribute.edit',['attribute'=>$attribute->id,'product'=>$product->id]) }}"
+                    class="btn btn-success d-block"><i class="fas fa-edit" aria-hidden="true"></i>Edit</a>
+                <a href="#" class="btn btn-danger d-block"
                     onclick="event.preventDefault();deleteRecord({{ $attribute->id }})"><i class="fas fa-trash"></i>
                     Delete</a>
                 <form id="delete-form-{{ $attribute->id }}"
-                    action="{{ route('admin.attribute.destroy',$attribute->id) }}" method="POST" class="d-none">
+                    action="{{ route('admin.attribute.destroy',['attribute'=>$attribute->id,'product'=>$product->id]) }}"
+                    method="POST" class="d-none">
                     @csrf
                     @method("delete")
                 </form>

@@ -15,6 +15,8 @@ class CreateProductAttributesTable extends Migration
     {
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("product_id")->references("id")
+                ->on("products")->cascadeOnUpdate()->cascadeOnDelete();
             $table->text("name");
             $table->enum("type", ["text", "dropdown", "radio"]);
             $table->float("price", 8, 2, true)->default(0.00);

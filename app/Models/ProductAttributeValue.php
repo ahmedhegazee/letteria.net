@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductAttributeValue extends Model
 {
     use HasFactory;
-    protected $fillable = ["value", "product_attribute_id"];
+    protected $fillable = ["value", "product_attribute_id", "price"];
     protected $casts = [
         "value" => Json::class
     ];

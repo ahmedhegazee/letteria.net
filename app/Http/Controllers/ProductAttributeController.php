@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,11 +14,11 @@ class ProductAttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product)
     {
         $title = "Product Attribute Index";
-        $attributes = ProductAttribute::with('values')->paginate(10);
-        return view('dashboard.product_attributes.index', \compact('attributes', 'title'));
+        $attributes = $product->attributes()->with('values')->paginate(10);
+        return view('dashboard.product_attributes.index', \compact('attributes', 'title', 'product'));
     }
 
     /**
@@ -25,10 +26,10 @@ class ProductAttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Product $product)
     {
-        $title = "Add Product Attribute";
-        return view('dashboard.product_attributes.create', \compact('title'));
+        $title = "Add Product Attribute for " . $product->title['en'];
+        return view('dashboard.product_attributes.create', \compact('title', 'product'));
     }
 
     /**
@@ -37,9 +38,9 @@ class ProductAttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Product $product, Request $request)
     {
-
+        // dd($request->values);
         $rules = [
             'name' => "required|array",
             'name.*' => "required|string|min:3|max:191",
@@ -51,21 +52,25 @@ class ProductAttributeController extends Controller
             'values.*' => 'required|array',
             'values.*.en' => "required|string|min:3|max:191",
             'values.*.ar' => "required|string|min:3|max:191",
+            'values.*.price' => "required|numeric|min:0",
         ];
         $this->validate($request, $rules);
         if (is_null($request->limit_chars)) {
             $request->merge(['limit_chars' => 0]);
         }
-        $attribute = ProductAttribute::create($request->all());
+
+        $attribute = $product->attributes()->create($request->all());
         if ($request->has('values')) {
             $values = collect($request->values)->map(function ($value) use ($attribute) {
-                return ['value' => \json_encode($value), 'product_attribute_id' => $attribute->id];
+                $price = $value['price'];
+                unset($value['price']);
+                return ['value' => \json_encode($value), 'product_attribute_id' => $attribute->id, 'price' => $price];
             })->toArray();
 
             $attribute->values()->insert($values);
         }
 
-        return \redirect(route('admin.attribute.index'));
+        return \redirect(route('admin.attribute.index', $product->id));
     }
 
     /**
@@ -74,11 +79,11 @@ class ProductAttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProductAttribute $attribute)
+    public function edit(Product $product, ProductAttribute $attribute)
     {
         $attribute->load('values');
-        $title = "Edit Product Attribute";
-        return view('dashboard.product_attributes.edit', \compact('title', 'attribute'));
+        $title = "Edit Product Attribute for " . $product->title['en'];
+        return view('dashboard.product_attributes.edit', \compact('title', 'attribute', 'product'));
     }
 
     /**
@@ -88,7 +93,7 @@ class ProductAttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductAttribute $attribute)
+    public function update(Request $request, Product $product, ProductAttribute $attribute)
     {
         $rules = [
             'name' => "required|array",
@@ -101,6 +106,7 @@ class ProductAttributeController extends Controller
             'values.*' => 'required|array',
             'values.*.en' => "required|string|min:3|max:191",
             'values.*.ar' => "required|string|min:3|max:191",
+            'values.*.price' => "required|numeric|min:0",
         ];
 
         $this->validate($request, $rules);
@@ -111,12 +117,14 @@ class ProductAttributeController extends Controller
         if ($request->has('values')) {
             $attribute->values()->delete();
             $values = collect($request->values)->map(function ($value) use ($attribute) {
-                return ['value' => \json_encode($value), 'product_attribute_id' => $attribute->id];
+                $price = $value['price'];
+                unset($value['price']);
+                return ['value' => \json_encode($value), 'product_attribute_id' => $attribute->id, 'price' => $price];
             })->toArray();
 
             $attribute->values()->insert($values);
         }
-        return \redirect(route('admin.attribute.index'));
+        return \redirect(route('admin.attribute.index', $product->id));
     }
 
     /**
@@ -125,7 +133,7 @@ class ProductAttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductAttribute $attribute)
+    public function destroy(Product $product, ProductAttribute $attribute)
     {
         $attribute->delete();
         return \back();

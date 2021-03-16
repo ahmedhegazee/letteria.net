@@ -35,7 +35,6 @@
                 <input type="file" class="custom-file-input @error('image') is-invalid @enderror" id="image"
                     name="image" accept="image/*">
                 <label class="custom-file-label" for="image">Choose Image</label>
-
             </div>
             @error('image')
             <span class="invalid-feedback" role="alert">

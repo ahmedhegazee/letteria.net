@@ -18,6 +18,7 @@ class CreateProductAttributeValuesTable extends Migration
             $table->foreignId("product_attribute_id")->references("id")
                 ->on("product_attributes")->cascadeOnDelete()->cascadeOnUpdate();
             $table->text("value");
+            $table->float("price", 8, 2, true)->default(0.00);
             $table->timestamps();
         });
     }

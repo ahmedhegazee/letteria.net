@@ -90,7 +90,7 @@
         <div class="row" id="valuesSection">
             @if (!empty($attribute)||old('values'))
             @foreach ($attribute->values??old('values') as $item)
-            <div class="form-group col-md-6"><label for="name">Value (en)</label>
+            <div class="form-group col-md-4"><label for="name">Value (en)</label>
                 <input type="text"
                     class="form-control @error('values.'.($loop->iteration-1).'.en') is-invalid @enderror"
                     placeholder="Enter value" value="{{ $item->value['en']??$item['en'] }}"
@@ -101,12 +101,23 @@
                 </span>
                 @enderror
             </div>
-            <div class="form-group col-md-6"><label for="name">Value (ar)</label>
+            <div class="form-group col-md-4"><label for="name">Value (ar)</label>
                 <input type="text"
                     class="form-control @error('values.'.($loop->iteration-1).'.ar') is-invalid @enderror"
                     placeholder="Enter value" value="{{ $item->value['ar']??$item['ar'] }}"
                     name="values[{{ $loop->iteration-1 }}][ar]" min="3" max="191">
                 @error('values.'.($loop->iteration-1).'.ar')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+            <div class="form-group col-md-4"><label for="name">Price</label>
+                <input type="number"
+                    class="form-control @error('values.'.($loop->iteration-1).'.price') is-invalid @enderror"
+                    placeholder="Enter price" value="{{ $item->value['price']??$item['price'] }}"
+                    name="values[{{ $loop->iteration-1 }}][price]" min="0">
+                @error('values.'.($loop->iteration-1).'.price')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
@@ -141,12 +152,14 @@
     }
     function addNewValuesSection(){
         let valuesSection  = document.getElementById('valuesSection'),
-        newSection=`<div class="form-group col-md-6"><label for="name">Value (en)</label>
+        newSection=`<div class="form-group col-md-4"><label for="name">Value (en)</label>
         <input type="text" class="form-control"  placeholder="Enter value"
             value="" name="values[${lastIndex}][en]" min="3" max="191"></div>
-            <div class="form-group col-md-6"><label for="name">Value (ar)</label>
+            <div class="form-group col-md-4"><label for="name">Value (ar)</label>
                 <input type="text" class="form-control" placeholder="Enter value" value="" name="values[${lastIndex}][ar]" min="3"
-                    max="191"></div>`;
+                    max="191"></div><div class="form-group col-md-4"><label for="name">Price</label>
+                        <input type="number" class="form-control" placeholder="Enter price" value="" name="values[${lastIndex}][price]" min="0"
+                           ></div>`;
                 lastIndex++;
         valuesSection.innerHTML=valuesSection.innerHTML+newSection;
     }

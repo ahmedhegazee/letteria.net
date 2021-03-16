@@ -72,11 +72,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.attribute.index') }}"
-                        class="nav-link {{ request()->is("dashboard/product/attribute/*")||request()->is("dashboard/product/attribute")?'active':'' }}">
-                        <i class="nav-icon fas fa-certificate"></i>
+                    <a href="{{ route('admin.product.index') }}"
+                        class="nav-link {{ request()->is("dashboard/product/product/*")||request()->is("dashboard/product/product")?'active':'' }}">
+                        <i class="nav-icon fas fa-box"></i>
                         <p>
-                            Attributes
+                            Products
                         </p>
                     </a>
                 </li>
