@@ -49,7 +49,7 @@ class HomeImagePageController extends Controller
         ];
         $this->validate($request, $rules);
         $image_src = $request->file('image')->store('sliders', ['disk' => 'public']);
-        $request->merge(['image_src' => $image_src]);
+        $request->merge(['image_src' => "storage/" . $image_src]);
         HomePageImage::create($request->all());
         return \redirect(route('admin.slider.index'));
     }
@@ -86,7 +86,7 @@ class HomeImagePageController extends Controller
         if ($request->has('image')) {
             unlink(\public_path('storage/' . $slider->image_src));
             $image_src = $request->file('image')->store('sliders', ['disk' => 'public']);
-            $request->merge(['image_src' => $image_src]);
+            $request->merge(['image_src' => "storage/" . $image_src]);
         }
 
         $slider->update($request->all());

@@ -1,82 +1,95 @@
 <template >
   <div class="container">
-    <div class="header">
-      <h1>LETTER BAR</h1>
-      <hr class="hr--small" />
-      <p>
-        We use the old fashioned method of lettering. Each piece is hand stamped
-        and crafted capturing your unique self. Names, initials, special dates,
-        words of inspiration absolutely anything you like add that personal
-        touch.
-      </p>
-    </div>
-    <div class="products">
-      <div class="row">
-        <div class="col-md-7 col-sm-12">
-          <a href="/products/1">
-            <div class="product first-product">
-              <img src="/images/product1.jpg" />
-            </div>
-            <div class="product-title">
-              <span>2 cm Bar Necklace (max. 5 characters)</span
-              ><span>—£24</span>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-5 col-sm-12">
-          <div class="row">
-            <div class="col-md-12 col-sm-12">
-              <a href="#">
-                <div class="product" style="height: 245px">
-                  <img src="/images/product2.jpg" />
-                </div>
-                <div class="product-title">
-                  <span>3 cm Bar Necklace (max. 9 characters)</span
-                  ><span>—£29</span>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-12 col-sm-12">
-              <a href="#">
-                <div class="product" style="height: 245px">
-                  <img src="/images/product3.jpg" />
-                </div>
-                <div class="product-title">
-                  <span>4 cm Bar Necklace (max. 13 characters)</span
-                  ><span>—£24</span>
-                </div>
-              </a>
+    <template v-if="currentCategory.name">
+      <div class="header">
+        <h1>{{ currentCategory.name[currentLanguage] }}</h1>
+        <hr class="hr--small" />
+        <p>
+          {{ currentCategory.content[currentLanguage] }}
+        </p>
+      </div>
+      <div class="products">
+        <div class="row" v-if="firstThreeProducts.length">
+          <div class="col-md-7 col-sm-12">
+            <router-link :to="`/products/${firstThreeProducts[0].slug}`">
+              <div class="product first-product">
+                <img :src="firstThreeProducts[0].image_src" />
+              </div>
+              <div class="product-title">
+                <span> {{ firstThreeProducts[0].title[currentLanguage] }} </span
+                ><span>—{{ firstThreeProducts[0].price }}SR</span>
+              </div>
+            </router-link>
+          </div>
+          <div class="col-md-5 col-sm-12">
+            <div class="row">
+              <div class="col-md-12 col-sm-12">
+                <router-link :to="`/products/${firstThreeProducts[1].slug}`">
+                  <div class="product" style="height: 245px">
+                    <img :src="firstThreeProducts[1].image_src" />
+                  </div>
+                  <div class="product-title">
+                    <span
+                      >{{ firstThreeProducts[1].title[currentLanguage] }} </span
+                    ><span>—{{ firstThreeProducts[1].price }}SR</span>
+                  </div>
+                </router-link>
+              </div>
+              <div class="col-md-12 col-sm-12">
+                <router-link :to="`/products/${firstThreeProducts[2].slug}`">
+                  <div class="product" style="height: 245px">
+                    <img :src="firstThreeProducts[2].image_src" />
+                  </div>
+                  <div class="product-title">
+                    <span>{{
+                      firstThreeProducts[1].title[currentLanguage]
+                    }}</span
+                    ><span>—{{ firstThreeProducts[2].price }}SR</span>
+                  </div>
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-sm-12">
-          <a href="#">
-            <div class="product" style="height: 310px">
-              <img src="/images/product5.jpg" />
-            </div>
-            <div class="product-title">
-              <span>Double Bar Necklace</span><span>—£34</span>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <a href="#">
-            <div class="product" style="height: 310px">
-              <img src="/images/product4.jpg" />
-            </div>
-            <div class="product-title">
-              <span>Triple Bar Necklace</span><span>—£44</span>
-            </div>
-          </a>
+        <div class="row" v-if="restProducts.length">
+          <div
+            class="col-md-6 col-sm-12"
+            v-for="(product, index) in restProducts"
+            :key="index"
+          >
+            <router-link :to="`/products/${product.slug}`">
+              <div class="product" style="height: 310px">
+                <img :src="product.image_src" />
+              </div>
+              <div class="product-title">
+                <span> {{ product.title[currentLanguage] }} </span
+                ><span>— {{ product.price }} </span>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  mounted() {
+    let slug = this.$route.params.slug;
+    this.$store.commit("categories/SET_CURRENT_CATEGORY", slug);
+  },
+  computed: {
+    ...mapGetters("categories", [
+      "currentCategory",
+      "firstThreeProducts",
+      "restProducts",
+    ]),
+    currentLanguage() {
+      return this.$i18n.locale;
+    },
+  },
+};
 </script>
 <style scoped>
 .header {

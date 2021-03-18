@@ -22,7 +22,13 @@
 
             @foreach ($langs as $lang)
             <td>{{ $categry->name[$lang] }}</td>
-            <td>{{ $categry->content[$lang] }}</td>
+            <td>
+                <textarea name="" id="" cols="30" rows="10" disabled style="border: none;
+background: transparent;
+color: #000;">
+                    {{ $categry->content[$lang] }}
+                </textarea>
+            </td>
             @endforeach
             <td>
                 <a href="{{ route('admin.category.edit',$categry->id) }}" class="btn btn-success"><i class="fas fa-edit"

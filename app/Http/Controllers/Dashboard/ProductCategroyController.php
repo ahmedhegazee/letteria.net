@@ -40,7 +40,7 @@ class ProductCategroyController extends Controller
             'name' => "required|array",
             'name.*' => "required|string|min:3|max:191",
             'content' => "required|array",
-            'content.*' => "required|string|min:3|max:191",
+            'content.*' => "required|string|min:3",
         ];
         $this->validate($request, $rules);
         $slug = Str::slug($request->name[config('langs')[0]]);
@@ -74,7 +74,7 @@ class ProductCategroyController extends Controller
             'name' => "required|array",
             'name.*' => "required|string|min:3|max:191",
             'content' => "required|array",
-            'content.*' => "required|string|min:3|max:191",
+            'content.*' => "required|string|min:3",
         ];
         $this->validate($request, $rules);
         $slug = Str::slug($request->name[config('langs')[0]]);

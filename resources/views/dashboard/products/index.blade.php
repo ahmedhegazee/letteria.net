@@ -26,14 +26,15 @@
             <td>{{ $product->price }}</td>
             <td>{{ $product->category->name['en'] }}</td>
             <td>
-                <a href="{{ route('admin.product.edit',$product->id) }}" class="btn btn-success"><i class="fas fa-edit"
-                        aria-hidden="true"></i>Edit</a>
-                <a href="{{ route('admin.attribute.index',$product->id) }}" class="btn btn-primary"><i
+                <a href="{{ route('admin.product.edit',$product->id) }}" class="btn btn-success d-block"><i
+                        class="fas fa-edit" aria-hidden="true"></i>Edit</a>
+                <a href="{{ route('admin.attribute.index',$product->id) }}" class="btn btn-primary d-block"><i
                         class="fas fa-building" aria-hidden="true"></i>Attributes</a>
-                <a href="{{ route('admin.image.index',$product->id) }}" class="btn btn-info"><i class="fas fa-images"
-                        aria-hidden="true"></i>images</a>
-                <a href="#" class="btn btn-danger" onclick="event.preventDefault();deleteRecord({{ $product->id }})"><i
-                        class="fas fa-trash"></i> Delete</a>
+                <a href="{{ route('admin.image.index',$product->id) }}" class="btn btn-info d-block"><i
+                        class="fas fa-images" aria-hidden="true"></i>images</a>
+                <a href="#" class="btn btn-danger d-block"
+                    onclick="event.preventDefault();deleteRecord({{ $product->id }})"><i class="fas fa-trash"></i>
+                    Delete</a>
                 <form id="delete-form-{{ $product->id }}" action="{{ route('admin.product.destroy',$product->id) }}"
                     method="POST" class="d-none">
                     @csrf

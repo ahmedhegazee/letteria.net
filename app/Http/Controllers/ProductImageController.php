@@ -83,7 +83,7 @@ class ProductImageController extends Controller
         $this->validate($request, $rules);
         \unlink($image->src);
         $imageLink = $request->image->store('product_imagess', ['disk' => 'public']);
-        $image->src = $imageLink;
+        $image->src = "storage/" . $imageLink;
         $image->save();
         return \redirect(route('admin.image.index', $product->id));
     }

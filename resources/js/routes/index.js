@@ -14,12 +14,12 @@ export const routes = [
     },
     {
         name: "products",
-        path: "/products",
+        path: "/:slug",
         component: Products
     },
     {
         name: "product_show",
-        path: "/products/:id",
+        path: "/products/:slug",
         component: ProductShow
     },
     {

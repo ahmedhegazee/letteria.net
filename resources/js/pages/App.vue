@@ -13,51 +13,48 @@
           <i class="fas fa-times"></i>
         </button>
       </div>
-      <ul class="list-unstyled components">
-        <li class="active">
-          <a href="/products"
-            >LETTER BAR
+      <template v-if="categories.length">
+        <ul class="list-unstyled components">
+          <li
+            class="active"
+            v-for="(category, index) in categories"
+            :key="index"
+          >
+            <router-link :to="`/${category.slug}`" class="d-inline">
+              {{ category.name[currentLanguage] }}
+            </router-link>
             <a
-              href="#homeSubmenu"
+              :href="`#${category.slug}`"
               data-toggle="collapse"
               aria-expanded="false"
-              class="dropdown-toggle d-inline"
+              class="dropdown-toggle d-inline-block"
               style="border: none"
-              ><i class="fas fa-plus"></i></a
-          ></a>
+              ><i class="fas fa-plus"></i
+            ></a>
 
-          <ul class="collapse list-unstyled" id="homeSubmenu">
-            <li>
-              <a href="/products/1">2cm Bar (max. 5 characters)</a>
-            </li>
-            <li>
-              <a href="#">3cm Bar (max. 9 characters)</a>
-            </li>
-            <li>
-              <a href="#">4cm Bar (max. 13 characters)</a>
-            </li>
-            <li>
-              <a href="#">Double Bar</a>
-            </li>
-            <li>
-              <a href="#">Triple Bar</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
+            <ul class="collapse list-unstyled" :id="`${category.slug}`">
+              <li v-for="(product, key) in category.products" :key="key">
+                <router-link :to="`/products/${product.slug}`">
+                  {{ product.title[currentLanguage] }}
+                </router-link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </template>
 
       <ul class="list-unstyled CTAs" style="font-weight: 300">
         <li>
-          <a href="#" c>Our Story</a>
+          <router-link to="#" c>Our Story</router-link>
         </li>
         <li>
-          <a href="#">FAQ</a>
+          <router-link to="#">FAQ</router-link>
         </li>
         <li>
-          <a href="#">Delivery & Returns</a>
+          <router-link to="#">Delivery & Returns</router-link>
         </li>
         <li>
-          <a href="#">Contact Us</a>
+          <router-link to="#">Contact Us</router-link>
         </li>
       </ul>
     </nav>
@@ -200,7 +197,11 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
+  mounted() {
+    this.$store.dispatch("categories/getCategories");
+  },
   methods: {
     toggleSidebar() {
       let sidebar = document.getElementById("sidebar");
@@ -227,6 +228,7 @@ export default {
         this.$route.name == "order"
       );
     },
+    ...mapGetters("categories", ["categories"]),
   },
 };
 </script>

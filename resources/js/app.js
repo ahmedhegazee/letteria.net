@@ -9,6 +9,7 @@ import axios from "axios";
 import { routes } from "./routes/index";
 import { messages } from "./messages";
 import VueI18n from "vue-i18n";
+import { store } from "./store";
 Vue.component("test", "./components/test.vue");
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
@@ -28,6 +29,7 @@ const router = new VueRouter({
 const app = new Vue({
     el: "#app",
     router,
+    store,
     render: h => h(App),
     i18n
 });

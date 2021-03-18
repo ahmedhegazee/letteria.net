@@ -53,7 +53,7 @@ class ProductController extends Controller
         $this->validate($request, $rules);
         $slug = Str::slug($request->title[config('langs')[0]]);
         $image_src = $request->file('image')->store('products', ['disk' => 'public']);
-        $request->merge(['slug' => $slug, 'image_src' => $image_src]);
+        $request->merge(['slug' => $slug, 'image_src' => "storage/" . $image_src]);
         Product::create($request->all());
         return \redirect(route('admin.product.index'));
     }
@@ -91,7 +91,7 @@ class ProductController extends Controller
         $slug = Str::slug($request->title[config('langs')[0]]);
         if ($request->has('image')) {
             $image_src = $request->file('image')->store('products', ['disk' => 'public']);
-            $request->merge(['image_src' => $image_src]);
+            $request->merge(['image_src' => "storage/" . $image_src]);
         }
         $request->merge(['slug' => $slug]);
         $product->update($request->all());

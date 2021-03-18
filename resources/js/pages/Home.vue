@@ -1,91 +1,52 @@
 <template>
   <div class="home_slider">
-    <!-- <VueSlickCarousel
-      :arrows="false"
-      :dots="true"
-      :autoplay="true"
-      :autoplaySpeed="8000"
-      :slidesToShow="1"
-    >
-      <div
-        class="slider-image"
-        :style="{ backgroundImage: 'url(\'/images/slider1.png\')' }"
-      >
-        <div class="row content">
-          <div>
-            <p class="sub_title">UK & Republic of Ireland</p>
-            <h1 class="title">Free Shipping</h1>
-          </div>
-        </div>
-      </div>
-      <div
-        class="slider-image"
-        :style="{ backgroundImage: 'url(\'/images/slider2.png\')' }"
-      >
-        <div class="row content">
-          <div>
-            <p class="sub_title">Hand-stamped within</p>
-            <h1 class="title">24 Hours</h1>
-          </div>
-        </div>
-      </div>
-      <div
-        class="slider-image"
-        :style="{ backgroundImage: 'url(\'/images/slider3.png\')' }"
-      ></div>
-    </VueSlickCarousel> -->
     <div
-      id="carouselExampleCaptions"
+      id="carouselExampleIndicators"
       class="carousel slide"
       data-ride="carousel"
     >
       <ol class="carousel-indicators">
         <li
-          data-target="#carouselExampleCaptions"
-          data-slide-to="0"
-          class="active"
+          data-target="#carouselExampleIndicators"
+          :data-slide-to="index"
+          v-for="(image, index) in images"
+          :key="index"
+          :class="{ active: index == 0 }"
         ></li>
-        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        <!-- <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
       </ol>
       <div class="carousel-inner">
         <div
-          class="carousel-item active slider-image"
-          style="background-image: url('/images/slider1.png')"
+          class="carousel-item"
+          v-for="(image, index) in images"
+          :key="index"
+          :class="{ active: index == 0 }"
         >
-          <div class="row content">
-            <div>
-              <p class="sub_title">UK & Republic of Ireland</p>
-              <h1 class="title">Free Shipping</h1>
-            </div>
+          <div class="carousel-content">
+            <p class="sub_title">{{ image.sub_title[currentLanguage] }}</p>
+            <h1 class="title">{{ image.title[currentLanguage] }}</h1>
           </div>
+          <img :src="image.image_src" class="d-block w-100" alt="..." />
         </div>
-        <div
-          class="carousel-item slider-image"
-          style="background-image: url('/images/slider2.png')"
-        >
-          <div class="row content">
-            <div>
-              <p class="sub_title">Hand-stamped within</p>
-              <h1 class="title">24 Hours</h1>
-            </div>
+        <!-- <div class="carousel-item">
+          <div class="carousel-content">
+            <p class="sub_title">Hand-stamped within</p>
+            <h1 class="title">24 Hours</h1>
           </div>
+          <img src="/images/slider2.png" class="d-block w-100" alt="..." />
         </div>
-        <div
-          class="carousel-item slider-image"
-          style="background-image: url('/images/slider3.png')"
-        >
-          <div class="row content">
-            <div>
-              <p class="sub_title">Hand-stamped within</p>
-              <h1 class="title">24 Hours</h1>
-            </div>
+        <div class="carousel-item">
+          <div class="carousel-content">
+            <p class="sub_title">Hand-stamped within</p>
+            <h1 class="title">24 Hours</h1>
           </div>
-        </div>
+          <img src="/images/slider3.png" class="d-block w-100" alt="..." />
+        </div> -->
       </div>
       <a
         class="carousel-control-prev"
-        href="#carouselExampleCaptions"
+        href="#carouselExampleIndicators"
         role="button"
         data-slide="prev"
       >
@@ -94,7 +55,7 @@
       </a>
       <a
         class="carousel-control-next"
-        href="#carouselExampleCaptions"
+        href="#carouselExampleIndicators"
         role="button"
         data-slide="next"
       >
@@ -115,8 +76,20 @@ export default {
   components: {
     VueSlickCarousel,
   },
+  mounted() {
+    axios.get("/api/v1/slider").then((response) => {
+      this.images = response.data.images;
+    });
+  },
+  computed: {
+    currentLanguage() {
+      return this.$i18n.locale;
+    },
+  },
   data() {
-    return {};
+    return {
+      images: [],
+    };
   },
 };
 </script>
@@ -138,17 +111,24 @@ export default {
   width: 100%;
   height: 88vh;
 }
-.content .title,
-.content .sub_title {
+.carousel-content .title,
+.carousel-content .sub_title {
   display: block;
   color: #fff;
   font-size: 16px;
   width: 100%;
 }
-.content .title {
+.carousel-content .title {
   font-size: 4.5em;
 }
-.content .sub_title {
+.carousel-content .sub_title {
   font-size: 1.2em;
+}
+.carousel-content {
+  position: absolute;
+  top: 33vh;
+  text-align: center;
+  display: block;
+  width: 100%;
 }
 </style>
