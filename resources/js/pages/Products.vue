@@ -13,7 +13,7 @@
           <div class="col-md-7 col-sm-12">
             <router-link :to="`/products/${firstThreeProducts[0].slug}`">
               <div class="product first-product">
-                <img :src="firstThreeProducts[0].image_src" />
+                <img :src="'/' + firstThreeProducts[0].image_src" />
               </div>
               <div class="product-title">
                 <span> {{ firstThreeProducts[0].title[currentLanguage] }} </span
@@ -26,7 +26,7 @@
               <div class="col-md-12 col-sm-12">
                 <router-link :to="`/products/${firstThreeProducts[1].slug}`">
                   <div class="product" style="height: 245px">
-                    <img :src="firstThreeProducts[1].image_src" />
+                    <img :src="'/' + firstThreeProducts[1].image_src" />
                   </div>
                   <div class="product-title">
                     <span
@@ -38,7 +38,7 @@
               <div class="col-md-12 col-sm-12">
                 <router-link :to="`/products/${firstThreeProducts[2].slug}`">
                   <div class="product" style="height: 245px">
-                    <img :src="firstThreeProducts[2].image_src" />
+                    <img :src="'/' + firstThreeProducts[2].image_src" />
                   </div>
                   <div class="product-title">
                     <span>{{
@@ -59,7 +59,7 @@
           >
             <router-link :to="`/products/${product.slug}`">
               <div class="product" style="height: 310px">
-                <img :src="product.image_src" />
+                <img :src="'/' + product.image_src" />
               </div>
               <div class="product-title">
                 <span> {{ product.title[currentLanguage] }} </span
@@ -77,7 +77,7 @@ import { mapGetters } from "vuex";
 export default {
   mounted() {
     let slug = this.$route.params.slug;
-    this.$store.commit("categories/SET_CURRENT_CATEGORY", slug);
+    this.$store.dispatch("categories/getCategoryProducts", slug);
   },
   computed: {
     ...mapGetters("categories", [

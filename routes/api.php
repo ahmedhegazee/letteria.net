@@ -21,6 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix("v1")->group(function () {
     Route::get("/slider", [FrontController::class, 'getHomeImages']);
     Route::get("/categories", [FrontController::class, 'getCategories']);
-    Route::get("/category/{slug}", [FrontController::class, 'getCategoryProdcuts']);
+    Route::get("/category/{slug}/products", [FrontController::class, 'getCategoryProdcuts']);
     Route::get("/product/{slug}/details", [FrontController::class, 'getProductDetails']);
 });

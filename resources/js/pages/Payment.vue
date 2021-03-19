@@ -10,27 +10,45 @@
                 <span
                   ><i class="fas fa-shopping-cart"></i> Show order summary</span
                 >
-                <span>£24.00</span>
+                <span>{{ total }}SR</span>
               </a>
             </div>
             <div class="sidebar-content collapse" id="collapseExample">
-              <div class="row products">
+              <div
+                class="row products"
+                v-for="(order, index) in cart"
+                :key="index"
+              >
                 <div class="col-3" style="margin: auto">
                   <div class="product_image">
-                    <img src="/images/product1.jpg" alt="" />
-                    <span class="product_quntity">1</span>
+                    <img :src="'/' + order.image" alt="" />
+                    <span class="product_quntity"> {{ order.quantity }} </span>
                   </div>
                 </div>
                 <div class="col-6">
-                  <h5>2 cm Bar Necklace (max. 5 characters)</h5>
-                  <p>BAR COLOUR: Silver</p>
-                  <p>BAR HANGING: Horizontal</p>
-                  <p>FRONT TEXT: dsfds</p>
-                  <p>TEXT ALIGNMENT: Right</p>
-                  <p>CHAIN LENGTH: 16"-18" (ADJUSTABLE)</p>
+                  <h5>{{ order.name[currentLanguage] }}</h5>
+                  <p v-for="(detail, key) in order.details" :key="key">
+                    {{
+                      formatLabel(detail.name[currentLanguage], detail.price)
+                    }}
+                    :
+                    <template v-if="detail.isText">
+                      {{ detail.value }}
+                    </template>
+                    <template v-else>
+                      {{
+                        formatLabel(
+                          detail.valueName[currentLanguage],
+                          detail.valuePrice
+                        )
+                      }}
+                    </template>
+                  </p>
                   <p>Made just for you: ✓</p>
                 </div>
-                <div class="col-3 text-right" style="margin: auto">£24.00</div>
+                <div class="col-3 text-right" style="margin: auto">
+                  {{ order.price }}SR
+                </div>
               </div>
               <div class="row calculations">
                 <div class="col-3">Subtotal</div>
@@ -38,10 +56,10 @@
                   class="col-9 text-right"
                   style="font-size: 1em; color: #000; font-weight: 500"
                 >
-                  £24.00
+                  {{ total }}
                 </div>
                 <div class="col-3">Shipping</div>
-                <div class="col-9 text-right">Free</div>
+                <div class="col-9 text-right">Calculated at next step</div>
               </div>
               <div class="row total">
                 <div class="col-3" style="color: #000; font-size: 1.4em">
@@ -51,7 +69,7 @@
                   class="col-9 text-right"
                   style="font-size: 2em; font-weight: 600"
                 >
-                  £24.00
+                  {{ total }}
                 </div>
               </div>
             </div>
@@ -124,23 +142,35 @@
       </div>
       <div class="col-5 sidebar main-sidebar">
         <div class="sidebar-content">
-          <div class="row products">
+          <div class="row products" v-for="(order, index) in cart" :key="index">
             <div class="col-3" style="margin: auto">
               <div class="product_image">
-                <img src="/images/product1.jpg" alt="" />
-                <span class="product_quntity">1</span>
+                <img :src="'/' + order.image" alt="" />
+                <span class="product_quntity"> {{ order.quantity }} </span>
               </div>
             </div>
             <div class="col-6">
-              <h5>2 cm Bar Necklace (max. 5 characters)</h5>
-              <p>BAR COLOUR: Silver</p>
-              <p>BAR HANGING: Horizontal</p>
-              <p>FRONT TEXT: dsfds</p>
-              <p>TEXT ALIGNMENT: Right</p>
-              <p>CHAIN LENGTH: 16"-18" (ADJUSTABLE)</p>
+              <h5>{{ order.name[currentLanguage] }}</h5>
+              <p v-for="(detail, key) in order.details" :key="key">
+                {{ formatLabel(detail.name[currentLanguage], detail.price) }}
+                :
+                <template v-if="detail.isText">
+                  {{ detail.value }}
+                </template>
+                <template v-else>
+                  {{
+                    formatLabel(
+                      detail.valueName[currentLanguage],
+                      detail.valuePrice
+                    )
+                  }}
+                </template>
+              </p>
               <p>Made just for you: ✓</p>
             </div>
-            <div class="col-3 text-right" style="margin: auto">£24.00</div>
+            <div class="col-3 text-right" style="margin: auto">
+              {{ order.price }}SR
+            </div>
           </div>
           <div class="row calculations">
             <div class="col-3">Subtotal</div>
@@ -148,7 +178,7 @@
               class="col-9 text-right"
               style="font-size: 1em; color: #000; font-weight: 500"
             >
-              £24.00
+              {{ total }}SR
             </div>
             <div class="col-3">Shipping</div>
             <div class="col-9 text-right">Free</div>
@@ -159,7 +189,7 @@
               class="col-9 text-right"
               style="font-size: 2em; font-weight: 600"
             >
-              £24.00
+              {{ total }}SR
             </div>
           </div>
         </div>
@@ -168,7 +198,14 @@
   </div>
 </template>
 <script>
-export default {};
+import { mapGetters } from "vuex";
+import helper from "../mixins/helper";
+export default {
+  mixins: [helper],
+  computed: {
+    ...mapGetters("cart", ["cart", "total"]),
+  },
+};
 </script>
 <style scoped>
 .content {

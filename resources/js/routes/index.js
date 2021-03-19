@@ -14,7 +14,7 @@ export const routes = [
     },
     {
         name: "products",
-        path: "/:slug",
+        path: "/category/:slug",
         component: Products
     },
     {

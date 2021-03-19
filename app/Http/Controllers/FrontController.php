@@ -21,11 +21,11 @@ class FrontController extends Controller
     }
     public function getCategoryProdcuts($slug)
     {
-        $validator = \validator()->make(["slug" => $slug], ['slug' => 'rquired|string']);
-        if ($validator->fails) {
+        $validator = \validator()->make(["slug" => $slug], ['slug' => 'required|string']);
+        if ($validator->fails()) {
             return \response()->json(['errors' => $validator->errors()->toArray()]);
         }
-        $category = ProductCategory::where("slug", $slug)->with("products")->get();
+        $category = ProductCategory::where("slug", $slug)->with("products")->first();
         if (is_null($category)) {
             return \response()->json([], 404);
         }
@@ -33,11 +33,11 @@ class FrontController extends Controller
     }
     public function getProductDetails($slug)
     {
-        $validator = \validator()->make(["slug" => $slug], ['slug' => 'rquired|string']);
-        if ($validator->fails) {
+        $validator = \validator()->make(["slug" => $slug], ['slug' => 'required|string']);
+        if ($validator->fails()) {
             return \response()->json(['errors' => $validator->errors()->toArray()]);
         }
-        $product = Product::where("slug", $slug)->with(["attributes.values", "images"])->get();
+        $product = Product::where("slug", $slug)->with(["attributes.values", "images"])->first();
         if (is_null($product)) {
             return \response()->json([], 404);
         }

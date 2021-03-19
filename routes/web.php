@@ -26,11 +26,11 @@ Auth::routes(['register' => false, 'reset' => false]);
 Route::prefix('dashboard')->middleware('auth')->name('admin.')->group(function () {
     Route::get('/', [HomeController::class, "index"])->name('home');
     Route::resource("slider", HomeImagePageController::class)->except(['show']);
-    Route::prefix("product")->group(function () {
+    Route::prefix("products")->group(function () {
         Route::resource("category", ProductCategroyController::class)->except(['show']);
         Route::resource("{product}/attribute", ProductAttributeController::class)->except(['show']);
-        Route::resource("product", ProductController::class)->except(["show"]);
-        Route::resource("{product}/image", ProductImageController::class)->except(["show"]);
+        Route::resource("/product", ProductController::class)->except(["show"]);
+        Route::resource("/{product}/image", ProductImageController::class)->except(["show"]);
     });
 });
 Route::get('/404', fn () => view('errors.404'));

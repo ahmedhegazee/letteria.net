@@ -3,111 +3,165 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12 mobile_images">
-          <VueSlickCarousel
-            :arrows="false"
-            :dots="true"
-            :autoplay="false"
-            :slidesToShow="1"
-            :adaptiveHeight="true"
+          <div
+            id="carouselExampleIndicators"
+            class="carousel slide"
+            data-ride="carousel"
           >
-            <div><img src="/images/product_images/product1_img1.jpg" /></div>
-            <div><img src="/images/product_images/product1_img2.jpg" /></div>
-            <div><img src="/images/product_images/product1_img3.jpg" /></div>
-            <div><img src="/images/product_images/product1_img4.jpg" /></div>
-            <div><img src="/images/product_images/product1_img5.jpg" /></div>
-            <div><img src="/images/product_images/product1_img6.jpg" /></div>
-            <div><img src="/images/product_images/product1_img7.jpg" /></div>
-          </VueSlickCarousel>
+            <ol class="carousel-indicators">
+              <li
+                data-target="#carouselExampleIndicators"
+                :data-slide-to="index"
+                v-for="(image, index) in currentProduct.images"
+                :key="index"
+                :class="{ active: index == 0 }"
+              ></li>
+              <!-- <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
+            </ol>
+            <div class="carousel-inner">
+              <div
+                class="carousel-item"
+                v-for="(image, index) in currentProduct.images"
+                :key="index"
+                :class="{ active: index == 0 }"
+              >
+                <img
+                  :src="'/' + image.src"
+                  class="d-block w-100"
+                  alt="..."
+                  height="300px"
+                />
+              </div>
+            </div>
+            <a
+              class="carousel-control-prev"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a
+              class="carousel-control-next"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
         </div>
         <div class="col-md-7 images">
-          <div class="product_image">
-            <img src="/images/product_images/product1_img1.jpg" />
-          </div>
-          <div class="product_image">
-            <img src="/images/product_images/product1_img2.jpg" />
-          </div>
-          <div class="product_image">
-            <img src="/images/product_images/product1_img3.jpg" />
-          </div>
-          <div class="product_image">
-            <img src="/images/product_images/product1_img4.jpg" />
-          </div>
-          <div class="product_image">
-            <img src="/images/product_images/product1_img5.jpg" />
-          </div>
-          <div class="product_image">
-            <img src="/images/product_images/product1_img6.jpg" />
-          </div>
-          <div class="product_image">
-            <img src="/images/product_images/product1_img7.jpg" />
+          <div
+            class="product_image"
+            v-for="(image, index) in currentProduct.images"
+            :key="index"
+          >
+            <img :src="'/' + image.src" />
           </div>
         </div>
         <div class="col-md-5 col-sm-12">
           <div class="product_info">
-            <h1 class="product_title">2 cm Bar Necklace (max. 5 characters)</h1>
-            <p class="product_price">£24</p>
+            <h1 class="product_title" v-if="currentProduct.title">
+              {{ currentProduct.title[currentLanguage] }}
+            </h1>
+            <p class="product_price">{{ currentProduct.price }}SR</p>
             <hr class="hr--small" />
           </div>
           <div class="product_form">
-            <form>
-              <div class="form-group">
-                <label for="barColor">BAR COLOUR</label>
-                <select class="form-control" id="barColor">
-                  <option v-for="(color, index) in barColors" :key="index">
-                    {{ color }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="barHanging">BAR HANGING</label>
-                <select class="form-control" id="barHanging">
-                  <option v-for="(color, index) in barHangings" :key="index">
-                    {{ color }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="frontText">FRONT TEXT</label>
-                <input type="text" class="form-control" id="frontText" />
-              </div>
-              <div class="form-group">
-                <label for="backText">BACK TEXT(+£5.00)</label>
-                <input type="text" class="form-control" id="backText" />
-              </div>
-              <div class="form-group">
-                <label for="leftText">LEFT TEXT(+£5.00)</label>
-                <input type="text" class="form-control" id="leftText" />
-              </div>
-              <div class="form-group">
-                <label for="rightText">RIGHT TEXT(+£5.00)</label>
-                <input type="text" class="form-control" id="rightText" />
-              </div>
-              <div class="form-group">
-                <label for="topText">TOP TEXT(+£5.00)</label>
-                <input type="text" class="form-control" id="topText" />
-              </div>
-              <div class="form-group">
-                <label for="textAlighnments">TEXT ALIGNMENT</label>
-                <select class="form-control" id="textAlighnments">
-                  <option
-                    v-for="(color, index) in textAlighnments"
-                    :key="index"
+            <form id="form" onsubmit="e.preventDefault()">
+              <div
+                class="form-group"
+                v-for="(attribute, index) in currentProduct.attributes"
+                :key="index"
+              >
+                <template v-if="attribute.type == 'dropdown'">
+                  <label :for="'attr-' + index">
+                    {{
+                      formatLabel(
+                        attribute.name[currentLanguage],
+                        attribute.price
+                      )
+                    }}
+                  </label>
+                  <select
+                    class="form-control"
+                    :id="'attr-' + index"
+                    v-model="form[attribute.name['en']]"
+                    @change="changeAttributeValue(attribute)"
                   >
-                    {{ color }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="chainLengths">CHAIN LENGTHS</label>
-                <select class="form-control" id="chainLengths">
-                  <option v-for="(color, index) in chainLengths" :key="index">
-                    {{ color }}
-                  </option>
-                </select>
+                    <option
+                      v-for="(attributeValue, key) in attribute.values"
+                      :key="key"
+                      :value="attributeValue.id"
+                    >
+                      {{
+                        formatLabel(
+                          attributeValue.value[currentLanguage],
+                          attributeValue.price
+                        )
+                      }}
+                    </option>
+                  </select>
+                </template>
+                <template v-if="attribute.type == 'text'">
+                  <label :for="'attr-' + index">{{
+                    formatLabel(
+                      attribute.name[currentLanguage],
+                      attribute.price
+                    )
+                  }}</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    :id="'attr-' + index"
+                    :maxlength="attribute.limit_chars"
+                    :required="attribute.required ? 'required' : false"
+                    v-model="form[attribute.name['en']]"
+                    @keyup="changeAttributeValue(attribute)"
+                  />
+                </template>
+                <template v-if="attribute.type == 'radio'">
+                  <h3>
+                    {{
+                      formatLabel(
+                        attribute.name[currentLanguage],
+                        attribute.price
+                      )
+                    }}
+                  </h3>
+                  <div
+                    class="form-check"
+                    v-for="(attributeValue, key) in attribute.values"
+                    :key="key"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      :name="attribute.name['en']"
+                      id="exampleRadios1"
+                      :value="attributeValue.id"
+                      v-model="form[attribute.name['en']]"
+                    />
+                    <label class="form-check-label" for="exampleRadios1">
+                      {{ attributeValue.value[currentLanguage] }}
+                    </label>
+                  </div>
+                </template>
               </div>
               <div class="form-group">
                 <label for="instructions">ADDITIONAL INSTRUCTIONS</label>
                 <textarea
+                  v-model="form.notes"
                   class="form-control"
                   id="instructions"
                   rows="3"
@@ -119,6 +173,7 @@
                   type="checkbox"
                   value=""
                   id="specialOrder"
+                  required
                 />
                 <label class="form-check-label" for="specialOrder">
                   Made just for you
@@ -129,8 +184,10 @@
                 I confirm the personalised text and details put here are correct
                 as these cannot be changed once submitted.
               </p>
-              <p class="order_total">Customizations Total: £0.00</p>
-              <button type="button" class="btn btn-dark">ADD TO CART</button>
+              <p class="order_total">Customizations Total: {{ price }}SR</p>
+              <button type="button" class="btn btn-dark" @click="submit">
+                ADD TO CART
+              </button>
             </form>
             <ul class="description">
               <li>
@@ -170,19 +227,115 @@ import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 // optional style for arrows & dots
 import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
-
+import { mapGetters } from "vuex";
+import helper from "../mixins/helper";
 export default {
+  mixins: [helper],
   components: {
     VueSlickCarousel,
   },
+  mounted() {
+    let slug = this.$route.params.slug;
+    this.$store.dispatch("categories/getProductDetails", slug);
+  },
+  computed: {
+    ...mapGetters("categories", ["currentProduct"]),
+  },
   data() {
     return {
-      barColors: ["Gold", "Silver", "Rose Gold"],
-      barHangings: ["Horizontal", "Vertical"],
-      textAlighnments: ["Centre", "Right"],
-      chainLengths: ['16"-18" (ADJUSTABLE)', '24"-26" (ADJUSTABLE)'],
-      isSpecial: false,
+      form: { notes: "" },
+      price: 0,
+      priceList: {},
     };
+  },
+  watch: {
+    currentProduct(newProduct) {
+      this.price = newProduct.price;
+      newProduct.attributes.forEach((attribute) => {
+        if (attribute.type == "text") this.form[attribute.name["en"]] = "";
+        else {
+          this.form[attribute.name["en"]] = attribute.values[0].id;
+          this.price += attribute.values[0].price;
+          this.price += attribute.price;
+          this.priceList[attribute.name["en"]] =
+            attribute.price + attribute.values[0].price;
+        }
+      });
+    },
+  },
+  methods: {
+    changeAttributeValue(attribute) {
+      if (attribute.type == "dropdown" || attribute.type == "radio") {
+        let selectedValue = attribute.values.filter((value) => {
+          return value.id == this.form[attribute.name["en"]];
+        })[0];
+        this.priceList[attribute.name["en"]] =
+          attribute.price + selectedValue.price;
+      }
+      if (attribute.type == "text") {
+        if (this.form[attribute.name["en"]].length)
+          this.priceList[attribute.name["en"]] = attribute.price;
+        else this.priceList[attribute.name["en"]] = 0;
+      }
+      this.calculatePrice();
+    },
+    calculatePrice() {
+      this.price = this.currentProduct.price;
+      Object.keys(this.priceList).forEach((key) => {
+        this.price += this.priceList[key];
+      });
+    },
+    submit() {
+      if (document.getElementById("form").reportValidity()) {
+        let order = {
+          product_id: this.currentProduct.id,
+          quantity: 1,
+          name: this.currentProduct.title,
+          notes: this.form.notes,
+          details: this.formatOrderDetails(),
+          base_price: this.price,
+          price: this.price,
+          image: this.currentProduct.image_src,
+          id: Math.round(Math.random() * 100000),
+        };
+        this.$store.commit("cart/ADD_ORDER", order);
+        this.$router.push({ name: "cart" });
+      } else {
+        return;
+      }
+    },
+    formatOrderDetails() {
+      let formattedDetails = [];
+      Object.keys(this.form).forEach((key) => {
+        if (key != "notes") {
+          let attribute = this.currentProduct.attributes.filter((attribute) => {
+            return attribute.name["en"] == key;
+          })[0];
+          if (attribute.type != "text") {
+            let object = {
+              name: attribute.name,
+              price: attribute.price,
+              isText: false,
+            };
+            let attributeValue = attribute.values.filter((item) => {
+              return item.id == this.form[key];
+            })[0];
+            object.valueName = attributeValue.value;
+            object.valuePrice = attributeValue.price;
+            formattedDetails.push(object);
+          } else if (this.form[key].length) {
+            let object = {
+              name: attribute.name,
+              price: attribute.price,
+              isText: true,
+              value: this.form[key],
+            };
+            formattedDetails.push(object);
+          }
+        }
+      });
+      return formattedDetails;
+    },
   },
 };
 </script>
@@ -256,6 +409,9 @@ export default {
   }
   .mobile_images {
     display: block;
+  }
+  .container {
+    padding-top: 30px;
   }
 }
 </style>

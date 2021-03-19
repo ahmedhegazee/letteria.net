@@ -18,43 +18,74 @@
           </div>
         </div>
         <div class="col-12 cart_products">
-          <div class="row">
-            <div class="col-md-7 col-sm-12">
-              <div class="row">
-                <div class="col-md-4 col-sm-4 row pl-md-5">
-                  <img src="/images/product1.jpg" class="product_image" />
-                </div>
-                <div class="col-md-8 col-sm-8 pl-md-5">
-                  <h5 class="product_title">
-                    2 cm Bar Necklace (max. 5 characters)
-                  </h5>
-                  <p class="order_description">BAR COLOUR: Silver</p>
-                  <div class="order_description">BAR HANGING: Horizontal</div>
-                  <div class="order_description">FRONT TEXT: dsfds</div>
-                  <div class="order_description">TEXT ALIGNMENT: Right</div>
-                  <div class="order_description">
-                    CHAIN LENGTH: 16"-18" (ADJUSTABLE)
+          <template v-if="cart.length">
+            <div
+              class="row mb-2"
+              v-for="(order, index) in cart"
+              :key="index"
+              style="border-bottom: 1px solid"
+            >
+              <div class="col-md-7 col-sm-12">
+                <div class="row">
+                  <div class="col-md-4 col-sm-4 row pl-md-5">
+                    <img :src="'/'+order.image" class="product_image" />
                   </div>
-                  <div class="order_description">Made just for you: ✓</div>
-                  <div class="order_description">Remove</div>
+                  <div class="col-md-8 col-sm-8 pl-md-5">
+                    <h5 class="product_title">
+                      {{ order.name[currentLanguage] }}
+                    </h5>
+                    <div
+                      class="order_description"
+                      v-for="(detail, key) in order.details"
+                      :key="key"
+                    >
+                      {{
+                        formatLabel(detail.name[currentLanguage], detail.price)
+                      }}
+                      :
+                      <template v-if="detail.isText">
+                        {{ detail.value }}
+                      </template>
+                      <template v-else>
+                        {{
+                          formatLabel(
+                            detail.valueName[currentLanguage],
+                            detail.valuePrice
+                          )
+                        }}
+                      </template>
+                    </div>
+                    <div class="order_description">Made just for you: ✓</div>
+                    <button
+                      type="button"
+                      class="order_description"
+                      @click="removeOrder(order.id)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 col-sm-12">
+                <div class="row">
+                  <div class="col-6 text-center product_quantity_container">
+                    <input
+                      type="number"
+                      min="1"
+                      :value="order.quantity"
+                      name="product_quantity"
+                      style="width: 50%"
+                      @change="updateQuantity($event, order.id)"
+                    />
+                  </div>
+                  <div class="col-6 text-center total_container">
+                    {{ order.price }}SR
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-5 col-sm-12">
-              <div class="row">
-                <div class="col-6 text-center product_quantity_container">
-                  <input
-                    type="number"
-                    min="1"
-                    value="1"
-                    name="product_quantity"
-                    style="width: 50%"
-                  />
-                </div>
-                <div class="col-6 text-center total_container">£24.00</div>
-              </div>
-            </div>
-          </div>
+          </template>
+          <template v-else> Sorry your cart is empty </template>
         </div>
         <div class="col-md-12 cart_footer">
           <div class="row">
@@ -73,13 +104,13 @@
             <div class="col-md-5 col-sm-12">
               <div class="row">
                 <div class="col-6 mb-4 text-center">Subtotal</div>
-                <div class="col-6 mb-4 text-center">£24.00</div>
+                <div class="col-6 mb-4 text-center">{{ total }}SR</div>
                 <div class="col-12">
                   <p class="mb-4" style="color: #000; font-size: 14px">
                     <em>Shipping and taxes calculated at checkout</em>
                   </p>
                   <!-- <button type="button" class="btn btn-dark">CHECK OUT</button> -->
-                  <a href="/checkout" class="btn btn-dark">CHECK OUT</a>
+                  <a href="/checkout" class="btn btn-dark" v-if="cart.length">CHECK OUT</a>
                 </div>
               </div>
             </div>
@@ -90,7 +121,25 @@
   </div>
 </template>
 <script>
-export default {};
+import { mapGetters } from "vuex";
+import helper from "../mixins/helper";
+export default {
+  mixins: [helper],
+  computed: {
+    ...mapGetters("cart", ["cart", "total"]),
+  },
+  methods: {
+    updateQuantity(ev, orderID) {
+      this.$store.commit("cart/UPDATE_PRODUCT_QUANTITY", {
+        orderID,
+        quantity: parseInt(ev.target.value),
+      });
+    },
+    removeOrder(orderID) {
+      this.$store.commit("cart/REMOVE_ORDER", orderID);
+    },
+  },
+};
 </script>
 <style scoped>
 .header {
@@ -145,5 +194,10 @@ export default {};
     padding-right: 0;
     margin-top: 10px;
   }
+}
+button {
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 </style>

@@ -48,7 +48,7 @@ class ProductImageController extends Controller
         $this->validate($request, $rules);
         $paths = [];
         foreach ($request->images as $image) {
-            $paths[] = ["src" => "storage/" . $image->store('product_imagess', ['disk' => 'public']), 'product_id' => $product->id];
+            $paths[] = ["src" => "storage/" . $image->store('product_imagesa', ['disk' => 'public']), 'product_id' => $product->id];
         }
         ProductImage::insert($paths);
 
@@ -82,7 +82,7 @@ class ProductImageController extends Controller
 
         $this->validate($request, $rules);
         \unlink($image->src);
-        $imageLink = $request->image->store('product_imagess', ['disk' => 'public']);
+        $imageLink = $request->image->store('product_images', ['disk' => 'public']);
         $image->src = "storage/" . $imageLink;
         $image->save();
         return \redirect(route('admin.image.index', $product->id));

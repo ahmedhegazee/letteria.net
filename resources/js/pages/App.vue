@@ -20,7 +20,7 @@
             v-for="(category, index) in categories"
             :key="index"
           >
-            <router-link :to="`/${category.slug}`" class="d-inline">
+            <router-link :to="`/category/${category.slug}`" class="d-inline">
               {{ category.name[currentLanguage] }}
             </router-link>
             <a
@@ -70,7 +70,7 @@
         v-if="!isCheckout"
       >
         <div class="container-fluid">
-          <a class="navbar-brand" href="/">Letteria</a>
+          <router-link class="navbar-brand" to="/">Letteria</router-link>
           <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav mr-auto">
               <li class="nav-item active">
@@ -111,16 +111,16 @@
             >
               <i class="fas fa-align-justify"></i>
             </button>
-            <a
+            <router-link
               class="btn"
               :class="{
                 'btn-dark': isHomePage,
                 'btn-light': !isHomePage,
               }"
-              href="/cart"
+              to="/cart"
             >
               <i class="fas fa-shopping-cart"></i>
-            </a>
+            </router-link>
           </div>
           <!-- <button
             class="btn btn-dark d-inline-block d-lg-none ml-auto"
@@ -199,7 +199,9 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  mounted() {
+  created() {
+    let cart = localStorage.getItem("cart");
+    if (cart) this.$store.commit("cart/SET_CART", JSON.parse(cart));
     this.$store.dispatch("categories/getCategories");
   },
   methods: {

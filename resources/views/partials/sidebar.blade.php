@@ -64,7 +64,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.category.index') }}"
-                        class="nav-link {{ request()->is("dashboard/product/category/*")||request()->is("dashboard/product/category")?'active':'' }}">
+                        class="nav-link {{ request()->is("dashboard/products/category/*")||request()->is("dashboard/product/category")?'active':'' }}">
                         <i class="nav-icon fas fa-star"></i>
                         <p>
                             Categories
@@ -73,7 +73,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.product.index') }}"
-                        class="nav-link {{ request()->is("dashboard/product/product/*")||request()->is("dashboard/product/product")?'active':'' }}">
+                        class="nav-link {{ request()->is("dashboard/products/product/*")||request()->is("dashboard/products/product")?'active':'' }}">
                         <i class="nav-icon fas fa-box"></i>
                         <p>
                             Products
