@@ -91,7 +91,15 @@
             <h3>Contact information</h3>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control" id="email" />
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                v-model="form.email"
+              />
+              <div class="invalid-feedback" v-if="$v.form.email.$invalid">
+                {{ emailErrors[0] }}
+              </div>
             </div>
             <div class="form-check">
               <input
@@ -111,57 +119,147 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="firstName">First Name</label>
-                  <input type="text" class="form-control" id="firstName" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    v-model="form.firstName"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    v-if="$v.form.firstName.$invalid"
+                  >
+                    {{ firstNameErrors[0] }}
+                  </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="lastName">Last Name</label>
-                  <input type="text" class="form-control" id="lastName" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    v-model="form.lastName"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    v-if="$v.form.lastName.$invalid"
+                  >
+                    {{ lastNameErrors[0] }}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="form-group">
               <label for="company">Company (optional)</label>
-              <input type="text" class="form-control" id="company" />
+              <input
+                type="text"
+                class="form-control"
+                id="company"
+                v-model="form.company"
+              />
             </div>
             <div class="form-group">
               <label for="address">Address</label>
-              <input type="text" class="form-control" id="address" />
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                v-model="form.address"
+              />
+              <div class="invalid-feedback" v-if="$v.form.address.$invalid">
+                {{ addressErrors[0] }}
+              </div>
             </div>
             <div class="form-group">
               <label for="city">City</label>
-              <input type="text" class="form-control" id="city" />
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                v-model="form.city"
+              />
+              <div class="invalid-feedback" v-if="$v.form.city.$invalid">
+                {{ cityErrors[0] }}
+              </div>
             </div>
             <div class="row">
               <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                   <label for="country">Country/Region</label>
-                  <select class="form-control" id="country">
+                  <select
+                    class="form-control"
+                    id="country"
+                    v-model="form.country"
+                  >
                     <option disabled>Select Country/Region</option>
+                    <option
+                      :value="country"
+                      v-for="(country, index) in countries"
+                      :key="index"
+                    >
+                      {{ country }}
+                    </option>
                   </select>
+                  <div class="invalid-feedback" v-if="$v.form.country.$invalid">
+                    {{ countryErrors[0] }}
+                  </div>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                   <label for="governorate">Governorate</label>
-                  <select class="form-control" id="governorate">
+                  <select
+                    class="form-control"
+                    id="governorate"
+                    v-model="form.govern"
+                  >
                     <option disabled>Select Governorate</option>
+                    <option
+                      :value="city"
+                      v-for="(city, index) in cities"
+                      :key="index"
+                    >
+                      {{ city }}
+                    </option>
                   </select>
+                  <div class="invalid-feedback" v-if="$v.form.govern.$invalid">
+                    {{ governErrors[0] }}
+                  </div>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                   <label for="postalCode">Postal Code</label>
-                  <input type="text" class="form-control" id="postalCode" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="postalCode"
+                    v-model="form.postcode"
+                  />
+                  <div
+                    class="invalid-feedback"
+                    v-if="$v.form.postcode.$invalid"
+                  >
+                    {{ postcodeErrors[0] }}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div class="form-group">
               <label for="phone">Phone</label>
-              <input type="text" class="form-control" id="phone" />
+              <input
+                type="text"
+                class="form-control"
+                id="phone"
+                v-model="form.phone"
+              />
+              <div class="invalid-feedback" v-if="$v.form.phone.$invalid">
+                {{ phoneErrors[0] }}
+              </div>
             </div>
             <div class="form-check">
               <input
@@ -176,15 +274,17 @@
             </div>
             <div class="step-footer row">
               <div class="col-md-6 col-sm-12 return_link_container">
-                <a href="/cart" class="return-link">< Return to cart</a>
+                <router-link to="/cart" class="return-link"
+                  >< Return to cart</router-link
+                >
               </div>
               <div class="col-md-6 col-sm-12 text-right">
                 <!-- <button type="button" class="btn btn-dark">
                 Countinue to shipping
               </button> -->
-                <a href="/shipping" class="btn btn-dark">
+                <button type="button" @click="saveData" class="btn btn-dark">
                   Countinue to shipping
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -250,15 +350,165 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { required, minLength, email } from "vuelidate/lib/validators";
 import helper from "../mixins/helper";
+let countries = require("../data/countries.json");
+let countriesNames = Object.keys(countries);
 export default {
   mixins: [helper],
+  mounted() {
+    this.form.country = "Saudi Arabia";
+    this.cities = countries["Saudi Arabia"];
+    if (this.information) {
+      this.form = this.information;
+    }
+  },
   computed: {
-    ...mapGetters("cart", ["cart", "total"]),
+    ...mapGetters("cart", ["cart", "total", "information"]),
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.form.email.$dirty) return errors;
+      !this.$v.form.email.required && errors.push("Email is required.");
+      !this.$v.form.email.email && errors.push("Write valid email");
+      return errors;
+    },
+    firstNameErrors() {
+      const errors = [];
+      if (!this.$v.form.firstName.$dirty) return errors;
+      !this.$v.form.firstName.required &&
+        errors.push("First Name is required.");
+      !this.$v.form.firstName.minLength &&
+        errors.push("First Name must be at least 4 characters.");
+      return errors;
+    },
+    lastNameErrors() {
+      const errors = [];
+      if (!this.$v.form.lastName.$dirty) return errors;
+      !this.$v.form.lastName.required && errors.push("Last Name is required.");
+      !this.$v.form.lastName.minLength &&
+        errors.push("Last Name must be at least 4 characters.");
+      return errors;
+    },
+    addressErrors() {
+      const errors = [];
+      if (!this.$v.form.address.$dirty) return errors;
+      !this.$v.form.address.required && errors.push("Address is required.");
+      !this.$v.form.lastName.minLength &&
+        errors.push("Address must be at least 4 characters.");
+      return errors;
+    },
+    cityErrors() {
+      const errors = [];
+      if (!this.$v.form.city.$dirty) return errors;
+      !this.$v.form.city.required && errors.push("City  is required.");
+      !this.$v.form.lastName.minLength &&
+        errors.push("City must be at least 4 characters.");
+      return errors;
+    },
+    countryErrors() {
+      const errors = [];
+      if (!this.$v.form.country.$dirty) return errors;
+      !this.$v.form.country.required && errors.push("Country  is required.");
+      return errors;
+    },
+    governErrors() {
+      const errors = [];
+      if (!this.$v.form.govern.$dirty) return errors;
+      !this.$v.form.govern.required && errors.push("Governorate is required.");
+      return errors;
+    },
+    postcodeErrors() {
+      const errors = [];
+      if (!this.$v.form.postcode.$dirty) return errors;
+      !this.$v.form.postcode.required && errors.push("Post code is required.");
+      return errors;
+    },
+    phoneErrors() {
+      const errors = [];
+      if (!this.$v.form.phone.$dirty) return errors;
+      !this.$v.form.phone.required && errors.push("Phone is required.");
+      return errors;
+    },
+    currentCountry() {
+      return this.form.country;
+    },
+  },
+  validations: {
+    form: {
+      email: {
+        required,
+        email,
+      },
+      firstName: {
+        required,
+        minLength: minLength(4),
+      },
+      lastName: {
+        required,
+        minLength: minLength(4),
+      },
+      address: {
+        required,
+        minLength: minLength(4),
+      },
+      city: {
+        required,
+        minLength: minLength(4),
+      },
+      country: {
+        required,
+      },
+      govern: {
+        required,
+      },
+      postcode: {
+        required,
+      },
+      phone: {
+        required,
+      },
+    },
+  },
+  watch: {
+    currentCountry(newCountry, oldCountry) {
+      this.cities = countries[newCountry];
+    },
+  },
+  data() {
+    return {
+      form: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        company: "",
+        address: "",
+        city: "",
+        country: "",
+        govern: "",
+        postcode: "",
+        phone: "",
+      },
+      cities: [],
+      countries: countriesNames,
+    };
+  },
+  methods: {
+    saveData() {
+      this.$v.form.$touch();
+
+      if (this.$v.form.$invalid) {
+        return;
+      }
+      this.$store.commit("cart/SET_INFORMATION", this.form);
+      this.$router.push("/shipping");
+    },
   },
 };
 </script>
 <style scoped>
+.invalid-feedback {
+  display: block;
+}
 .content {
   max-width: 90%;
   margin: auto;

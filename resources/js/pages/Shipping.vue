@@ -90,13 +90,17 @@
           <div class="contact_information">
             <div class="row">
               <div class="col-3">Contact</div>
-              <div class="col-6">test@email.com</div>
-              <div class="col-3">Change</div>
+              <div class="col-6">{{ information.email }}</div>
+              <div class="col-3">
+                <router-link to="/checkout">Change</router-link>
+              </div>
             </div>
             <div class="row">
               <div class="col-3">Ship to</div>
-              <div class="col-6">test test test</div>
-              <div class="col-3">Change</div>
+              <div class="col-6">{{ information.address }}</div>
+              <div class="col-3">
+                <router-link to="/checkout"> Change</router-link>
+              </div>
             </div>
           </div>
           <div class="shipping">
@@ -120,17 +124,17 @@
             </form>
             <div class="step-footer row">
               <div class="col-md-6 col-sm-12 return_link_container">
-                <a href="/checkout" class="return-link"
-                  >< Return to information</a
+                <router-link to="/checkout" class="return-link"
+                  >< Return to information</router-link
                 >
               </div>
               <div class="col-md-6 col-sm-12 text-right">
                 <!-- <button type="button" class="btn btn-dark">
                 Countinue to payment
               </button> -->
-                <a href="/payment" class="btn btn-dark">
+                <router-link to="/payment" class="btn btn-dark">
                   Countinue to payment
-                </a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -200,7 +204,7 @@ import helper from "../mixins/helper";
 export default {
   mixins: [helper],
   computed: {
-    ...mapGetters("cart", ["cart", "total"]),
+    ...mapGetters("cart", ["cart", "total", "information"]),
   },
 };
 </script>

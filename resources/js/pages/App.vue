@@ -202,6 +202,9 @@ export default {
   created() {
     let cart = localStorage.getItem("cart");
     if (cart) this.$store.commit("cart/SET_CART", JSON.parse(cart));
+    let information = localStorage.getItem("information");
+    if (information)
+      this.$store.commit("cart/SET_INFORMATION", JSON.parse(information));
     this.$store.dispatch("categories/getCategories");
   },
   methods: {

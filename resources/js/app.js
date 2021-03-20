@@ -10,10 +10,12 @@ import { routes } from "./routes/index";
 import { messages } from "./messages";
 import VueI18n from "vue-i18n";
 import { store } from "./store";
+import Vuelidate from "vuelidate";
 Vue.component("test", "./components/test.vue");
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(VueI18n);
+Vue.use(Vuelidate);
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 const i18n = new VueI18n({

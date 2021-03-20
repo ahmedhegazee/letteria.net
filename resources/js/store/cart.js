@@ -1,7 +1,8 @@
 export const cart = {
     namespaced: true,
     state: () => ({
-        cart: []
+        cart: [],
+        information: null
     }),
     mutations: {
         SET_CART(state, cart) {
@@ -28,6 +29,13 @@ export const cart = {
                 state.cart.splice(index, 1);
             }
             localStorage.setItem("cart", JSON.stringify(state.cart));
+        },
+        SET_INFORMATION(state, information) {
+            state.information = information;
+            localStorage.setItem(
+                "information",
+                JSON.stringify(state.information)
+            );
         }
     },
     actions: {},
@@ -39,6 +47,7 @@ export const cart = {
                 total += state.cart[index].price;
             }
             return total;
-        }
+        },
+        information: state => state.information
     }
 };
