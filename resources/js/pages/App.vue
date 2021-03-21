@@ -1,6 +1,7 @@
 <template >
   <!--  -->
   <div class="wrapper">
+    <Loader v-if="isLoading"></Loader>
     <!-- Sidebar  -->
     <nav id="sidebar" class="active">
       <div class="sidbar-header">
@@ -197,8 +198,18 @@
   </div>
 </template>
 <script>
+import { EventBus } from "../EventBus";
 import { mapGetters } from "vuex";
+import Loader from "../components/loader.vue";
 export default {
+  components: {
+    Loader,
+  },
+  data() {
+    return {
+      isLoading: true,
+    };
+  },
   created() {
     let cart = localStorage.getItem("cart");
     if (cart) this.$store.commit("cart/SET_CART", JSON.parse(cart));
@@ -206,6 +217,9 @@ export default {
     if (information)
       this.$store.commit("cart/SET_INFORMATION", JSON.parse(information));
     this.$store.dispatch("categories/getCategories");
+    EventBus.$on("changeLoadingStatus", (status) => {
+      this.isLoading = status;
+    });
   },
   methods: {
     toggleSidebar() {

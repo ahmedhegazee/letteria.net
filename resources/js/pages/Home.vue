@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { EventBus } from "../EventBus";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 // optional style for arrows & dots
@@ -79,6 +80,9 @@ export default {
   mounted() {
     axios.get("/api/v1/slider").then((response) => {
       this.images = response.data.images;
+      setTimeout(() => {
+        EventBus.$emit("changeLoadingStatus", false);
+      }, 1000);
     });
   },
   computed: {

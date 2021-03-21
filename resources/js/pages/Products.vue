@@ -74,6 +74,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   mounted() {
     let slug = this.$route.params.slug;
